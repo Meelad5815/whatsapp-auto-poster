@@ -1,0 +1,29 @@
+{
+  "name": "whatsapp-auto-poster",
+  "version": "1.0.0",
+  "description": "Website for automatic WhatsApp posting to groups and channels",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 8000",
+    "dev": "npx live-server"
+  },
+  "keywords": [
+    "whatsapp",
+    "automation",
+    "scheduler",
+    "messaging",
+    "groups",
+    "channels"
+  ],
+  "author": "Meelad5815",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Meelad5815/whatsapp-auto-poster.git"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
+  },
+  "dependencies": {}
+}

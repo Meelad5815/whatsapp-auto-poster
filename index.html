@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Auto Poster - Automatic Message Scheduling</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📱 WhatsApp Auto Poster</h1>
+            <p class="subtitle">Schedule and automate your WhatsApp messages to groups and channels</p>
+        </header>
+
+        <main>
+            <section class="feature-section">
+                <h2>Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="icon">⏰</span>
+                        <h3>Schedule Messages</h3>
+                        <p>Set specific times for your messages to be sent automatically</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">👥</span>
+                        <h3>Multiple Groups</h3>
+                        <p>Post to multiple WhatsApp groups and channels simultaneously</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">📊</span>
+                        <h3>Analytics</h3>
+                        <p>Track your posting schedule and message delivery</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🔒</span>
+                        <h3>Secure</h3>
+                        <p>Your data is encrypted and stored securely</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2>Create Scheduled Post</h2>
+                <form id="postForm">
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" rows="5" placeholder="Enter your message here..." required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="date">Date</label>
+                            <input type="date" id="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="time">Time</label>
+                            <input type="time" id="time" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="groups">Select Groups/Channels</label>
+                        <select id="groups" multiple required>
+                            <option value="group1">Family Group</option>
+                            <option value="group2">Work Team</option>
+                            <option value="group3">Friends Channel</option>
+                            <option value="group4">Marketing Group</option>
+                        </select>
+                        <small>Hold Ctrl/Cmd to select multiple groups</small>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="repeat">
+                            Repeat daily
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Schedule Post</button>
+                </form>
+            </section>
+
+            <section class="scheduled-posts">
+                <h2>Scheduled Posts</h2>
+                <div id="postsList" class="posts-list">
+                    <p class="empty-state">No scheduled posts yet. Create one above!</p>
+                </div>
+            </section>
+
+            <section class="setup-section">
+                <h2>Setup Instructions</h2>
+                <div class="steps">
+                    <div class="step">
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <h3>Install WhatsApp Web</h3>
+                            <p>Connect your WhatsApp account using WhatsApp Web</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <h3>Grant Permissions</h3>
+                            <p>Allow the application to access your WhatsApp groups</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <h3>Start Scheduling</h3>
+                            <p>Create your first automated post and let the system handle the rest</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>⚠️ Note: This is a demo interface. Full functionality requires WhatsApp Business API integration.</p>
+            <p>© 2026 WhatsApp Auto Poster. For educational purposes.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
