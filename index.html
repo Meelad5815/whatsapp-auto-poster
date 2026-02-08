@@ -3,113 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp Auto Poster - Automatic Message Scheduling</title>
+    <title>WhatsApp Auto Poster - Real Integration</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>📱 WhatsApp Auto Poster</h1>
-            <p class="subtitle">Schedule and automate your WhatsApp messages to groups and channels</p>
+            <h1>📱 WhatsApp Auto Poster Pro</h1>
+            <p class="subtitle">Extract data from websites and auto-post to WhatsApp groups</p>
+            <div class="connection-status" id="connectionStatus">
+                <span class="status-dot offline"></span>
+                <span id="statusText">Not Connected</span>
+            </div>
         </header>
 
         <main>
-            <section class="feature-section">
-                <h2>Features</h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <span class="icon">⏰</span>
-                        <h3>Schedule Messages</h3>
-                        <p>Set specific times for your messages to be sent automatically</p>
+            <!-- WhatsApp Connection Section -->
+            <section class="connection-section">
+                <h2>🔐 WhatsApp Connection</h2>
+                <div class="connection-card">
+                    <div id="qrSection" class="qr-section">
+                        <h3>Step 1: Connect WhatsApp</h3>
+                        <p>Scan QR code with your WhatsApp mobile app</p>
+                        <div id="qrCode" class="qr-placeholder">
+                            <div class="qr-icon">📷</div>
+                            <p>Click "Connect WhatsApp" to generate QR code</p>
+                        </div>
+                        <button class="btn-primary" onclick="connectWhatsApp()">Connect WhatsApp</button>
                     </div>
-                    <div class="feature-card">
-                        <span class="icon">👥</span>
-                        <h3>Multiple Groups</h3>
-                        <p>Post to multiple WhatsApp groups and channels simultaneously</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">📊</span>
-                        <h3>Analytics</h3>
-                        <p>Track your posting schedule and message delivery</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">🔒</span>
-                        <h3>Secure</h3>
-                        <p>Your data is encrypted and stored securely</p>
+                    
+                    <div id="permissionSection" class="permission-section" style="display:none;">
+                        <h3>✅ WhatsApp Connected!</h3>
+                        <div class="permissions-list">
+                            <label class="permission-item">
+                                <input type="checkbox" id="permReadGroups" checked disabled>
+                                <span>Read Groups & Channels</span>
+                            </label>
+                            <label class="permission-item">
+                                <input type="checkbox" id="permSendMessages">
+                                <span>Send Messages (Required)</span>
+                            </label>
+                            <label class="permission-item">
+                                <input type="checkbox" id="permReadMessages">
+                                <span>Read Messages</span>
+                            </label>
+                            <label class="permission-item">
+                                <input type="checkbox" id="permMediaAccess">
+                                <span>Send Media Files</span>
+                            </label>
+                        </div>
+                        <button class="btn-primary" onclick="grantPermissions()">Grant Permissions</button>
                     </div>
                 </div>
             </section>
 
-            <section class="form-section">
-                <h2>Create Scheduled Post</h2>
-                <form id="postForm">
+            <!-- Web Scraping Section -->
+            <section class="scraping-section">
+                <h2>🌐 Website Data Extractor</h2>
+                <div class="form-section">
                     <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" rows="5" placeholder="Enter your message here..." required></textarea>
+                        <label for="websiteUrl">Website URL to Extract Data From</label>
+                        <input type="url" id="websiteUrl" placeholder="https://example.com/news" required>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="date">Date</label>
-                            <input type="date" id="date" required>
+                            <label for="scrapeType">Data Type</label>
+                            <select id="scrapeType">
+                                <option value="text">Text Content</option>
+                                <option value="headlines">Headlines</option>
+                                <option value="products">Products/Items</option>
+                                <option value="prices">Prices</option>
+                                <option value="images">Images</option>
+                                <option value="links">Links</option>
+                                <option value="custom">Custom Selector</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="time">Time</label>
-                            <input type="time" id="time" required>
+                            <label for="customSelector">CSS Selector (for Custom)</label>
+                            <input type="text" id="customSelector" placeholder=".article-title">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="groups">Select Groups/Channels</label>
-                        <select id="groups" multiple required>
-                            <option value="group1">Family Group</option>
-                            <option value="group2">Work Team</option>
-                            <option value="group3">Friends Channel</option>
-                            <option value="group4">Marketing Group</option>
-                        </select>
-                        <small>Hold Ctrl/Cmd to select multiple groups</small>
+                        <label for="dataLimit">Number of Items to Extract</label>
+                        <input type="number" id="dataLimit" value="5" min="1" max="50">
+                    </div>
+
+                    <button class="btn-secondary" onclick="testExtraction()">🔍 Test Extraction</button>
+                    
+                    <div id="extractedPreview" class="extracted-preview" style="display:none;">
+                        <h4>Extracted Data Preview:</h4>
+                        <div id="previewContent" class="preview-content"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Auto-Post Configuration -->
+            <section class="autopost-section">
+                <h2>⚡ Auto-Post Configuration</h2>
+                <form id="autoPostForm">
+                    <div class="form-group">
+                        <label for="messageTemplate">Message Template</label>
+                        <textarea id="messageTemplate" rows="4" placeholder="Use {{title}}, {{price}}, {{link}} as variables">🔥 New Update!
+
+{{title}}
+
+{{description}}
+
+🔗 {{link}}</textarea>
+                        <small>Available variables: {{title}}, {{description}}, {{price}}, {{link}}, {{image}}</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Select WhatsApp Groups/Channels</label>
+                        <div id="groupsList" class="groups-list">
+                            <p class="empty-state">Connect WhatsApp first to load groups</p>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="postInterval">Post Interval</label>
+                            <select id="postInterval">
+                                <option value="instant">Instant (One-time)</option>
+                                <option value="5">Every 5 minutes</option>
+                                <option value="15">Every 15 minutes</option>
+                                <option value="30">Every 30 minutes</option>
+                                <option value="60">Every 1 hour</option>
+                                <option value="360">Every 6 hours</option>
+                                <option value="1440">Daily</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="maxPosts">Maximum Posts per Run</label>
+                            <input type="number" id="maxPosts" value="5" min="1" max="20">
+                        </div>
                     </div>
 
                     <div class="form-group checkbox-group">
                         <label>
-                            <input type="checkbox" id="repeat">
-                            Repeat daily
+                            <input type="checkbox" id="includeImages">
+                            Include Images (if available)
+                        </label>
+                        <label>
+                            <input type="checkbox" id="avoidDuplicates" checked>
+                            Avoid Duplicate Posts
+                        </label>
+                        <label>
+                            <input type="checkbox" id="addTimestamp">
+                            Add Timestamp to Messages
                         </label>
                     </div>
 
-                    <button type="submit" class="btn-primary">Schedule Post</button>
+                    <button type="submit" class="btn-success">🚀 Start Auto-Posting</button>
                 </form>
             </section>
 
-            <section class="scheduled-posts">
-                <h2>Scheduled Posts</h2>
-                <div id="postsList" class="posts-list">
-                    <p class="empty-state">No scheduled posts yet. Create one above!</p>
+            <!-- Active Automations -->
+            <section class="active-automations">
+                <h2>📊 Active Automations</h2>
+                <div id="automationsList" class="automations-list">
+                    <p class="empty-state">No active automations. Create one above!</p>
                 </div>
             </section>
 
+            <!-- Setup Guide -->
             <section class="setup-section">
-                <h2>Setup Instructions</h2>
+                <h2>📖 How It Works</h2>
                 <div class="steps">
                     <div class="step">
                         <span class="step-number">1</span>
                         <div class="step-content">
-                            <h3>Install WhatsApp Web</h3>
-                            <p>Connect your WhatsApp account using WhatsApp Web</p>
+                            <h3>Connect WhatsApp</h3>
+                            <p>Scan QR code with WhatsApp mobile app and grant necessary permissions</p>
                         </div>
                     </div>
                     <div class="step">
                         <span class="step-number">2</span>
                         <div class="step-content">
-                            <h3>Grant Permissions</h3>
-                            <p>Allow the application to access your WhatsApp groups</p>
+                            <h3>Configure Data Source</h3>
+                            <p>Enter website URL and select what type of data to extract (news, products, etc.)</p>
                         </div>
                     </div>
                     <div class="step">
                         <span class="step-number">3</span>
                         <div class="step-content">
-                            <h3>Start Scheduling</h3>
-                            <p>Create your first automated post and let the system handle the rest</p>
+                            <h3>Select Groups & Schedule</h3>
+                            <p>Choose WhatsApp groups/channels and set posting interval (instant or recurring)</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <h3>Auto-Post Activated</h3>
+                            <p>System automatically extracts data and posts to selected groups on schedule</p>
                         </div>
                     </div>
                 </div>
@@ -117,8 +205,9 @@
         </main>
 
         <footer>
-            <p>⚠️ Note: This is a demo interface. Full functionality requires WhatsApp Business API integration.</p>
-            <p>© 2026 WhatsApp Auto Poster. For educational purposes.</p>
+            <p>⚠️ Important: This requires backend server with WhatsApp Web.js and web scraping APIs</p>
+            <p>📦 Required: Node.js, whatsapp-web.js, puppeteer, cheerio</p>
+            <p>© 2026 WhatsApp Auto Poster Pro - Use responsibly</p>
         </footer>
     </div>
 
